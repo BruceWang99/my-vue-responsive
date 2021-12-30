@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>defineProperty实现双向数据绑定</title>
+</head>
+<body>
+	<div id="app">
+		hello
+	</div>
+	<script>
+		// 多个属性的get set
+		// 代理的数据
+		let data = {
+			msg: 'hello'
+		}
+		let vm = {} // vue实例
+		proxyData(data)
+
+		// 代理数据
+		function proxyData(data) {
+			Object.keys(data).forEach((key)=> {
+				Object.defineProperty(vm, key, {
+					enumerable: true, // 该属性才会出现在对象的枚举属性中
+					configurable: true,// 可描述, 可被删除, 可被defineProperty修改
+					get() {
+						console.log('get', key);
+						return data[key]
+					},
+					set(newVal) {
+						console.log('set', key);
+						if(data[key] === newVal) return
+						data[key] = newVal
+						document.getElementById('app').textContent = data[key]
+					}
+				})
+			})
+			
+		}
+	</script>
+</body>
+</html>

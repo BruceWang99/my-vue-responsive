@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>defineProperty实现双向数据绑定</title>
+</head>
+<body>
+	<div id="app">
+		hello
+	</div>
+	<script>
+		// 一个属性的get set
+		// 代理的数据
+		let data = {
+			msg: 'hello'
+		}
+		let vm = {} // vue实例
+		Object.defineProperty(vm, 'msg', {
+			enumerable: true, // 该属性才会出现在对象的枚举属性中
+			configurable: true,// 可描述, 可被删除, 可被defineProperty修改
+			get() {
+				console.log('get');
+				return data.msg
+			},
+			set(newVal) {
+				console.log('set');
+				if(data.msg === newVal) return
+				data.msg = newVal
+				document.getElementById('app').textContent = data.msg
+			}
+		})
+		vm.msg = 'hello world' // set
+		console.log(vm.msg) // get
+	</script>
+</body>
+</html>

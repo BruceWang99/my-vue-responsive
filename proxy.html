@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Proxy</title>
+</head>
+<body>
+	<div id="app"></div>
+	<script>
+		// 多个属性的get set
+		// 代理的数据
+		let data = {
+			msg: 'hello',
+			count: 1
+		}
+		// vue实例
+		let vm = new Proxy(data, {
+			// target目标对象。property被获取的属性名。receiverProxy或者继承Proxy的对象
+			get: function(target, property, receiver) {
+				return target[property]
+  			},
+			set: function(target, property, value, receiver) {
+				if(value === target[property]) return
+				target[property] = value
+				document.getElementById('app').textContent = target[property]
+			},
+		})
+		vm.msg = 'world'
+    </script>
+</body>
+</html>
