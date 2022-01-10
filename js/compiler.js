@@ -33,7 +33,14 @@ class Compiler {
 			if(this.isDirective(attrName)){
 				attrName = attrName.substr(2)
 				let key = attri.value
-				this.update(node, key, attrName)
+				console.log('attrName', attrName);
+				if(/^(\w+):([a-zA-Z0-9]+)$/.test(attrName)) {
+					let eventName = RegExp.$1
+					let eventType = RegExp.$2.trim()
+					this.onUpdater(node, eventType, eventName, key)
+				} else {
+					this.update(node, key, attrName)
+				}
 			}
 		})
 	}
@@ -60,6 +67,27 @@ class Compiler {
 		// 双向绑定
 		node.addEventListener('input', () => {
 			this.vm[key] = node.value
+		})
+	}
+	// 处理v-on指令
+	onUpdater (node, eventType, eventName, attrValue) {
+		console.log(node);
+		console.log(eventType);
+		console.log(eventName);
+		// 例如 v-on:click="test()"
+        // 1. 把对应的事件绑定到node上
+		// 2. 把对应的事件的回调函数做下监听
+		// 3. 处理下自定义函数的参数
+
+		// 回调事件
+		node.addEventListener(eventType, (e) => {
+			let args = []
+			let key = ''
+			if(/^([a-zA-Z0-9]+)\((.*)\)$/.test(attrValue)){
+				key = RegExp.$1
+				args = RegExp.$2.split(',').map(item=>item.trim().replace(/'|"/g, ''))
+			}
+			this.vm.$options.methods && this.vm.$options.methods[key].apply(this.vm, args.length ? args : e)
 		})
 	}
 	// 编译文本节点, 处理差值表达式 {{}}

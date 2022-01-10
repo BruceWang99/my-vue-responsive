@@ -1,7 +1,10 @@
+function isObject(val) {
+	return Object.prototype.toString.call(val) === '[[object Object]]'
+}
 class Vue {
 	constructor(options) {
 		// 1. 属性
-		this.$options = options || options
+		this.$options = options || {el: '#app', data: {}, methods: {}}
 		this.$data = options.data || {}
 		this.$el = typeof options.el === 'string' ? document.querySelector(options.el) : options.el
 		// vue实例上的属性代理到data对象

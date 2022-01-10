@@ -11,6 +11,7 @@
 		<span>{{msg}}</span>
 		<div v-text="msg"></div>
 		<input type="text" v-model="msg">
+		<button v-on:click="test(   'aa', 'bb ',  'c   '    )">测试点击事件</button>
 	</div>
 
 	<script src="./js/dep.js"></script>
@@ -28,6 +29,11 @@
 				person: {
 					name: 'bruce wang',
 					age: 24
+				}
+			},
+			methods: {
+				test() {
+					console.log('点击了测试按钮', this.person);
 				}
 			}
 		})
