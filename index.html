@@ -10,6 +10,7 @@
 	<div id="app">
 		<span>{{msg}}</span>
 		<div v-text="msg"></div>
+		<div v-html="htmlContent"></div>
 		<input type="text" v-model="msg">
 		<button v-on:click="test(   'aa', 'bb ',  'c   '    )">测试点击事件</button>
 	</div>
@@ -25,6 +26,8 @@
 			el: '#app',
 			data: {
 				msg: 'hello vue ',
+				htmlContent: `<span>这是一个内嵌的span</span>
+				<i>这是一个内嵌的i</i>`,
 				count: 100,
 				person: {
 					name: 'bruce wang',

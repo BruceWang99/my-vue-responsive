@@ -56,6 +56,14 @@ class Compiler {
 			node.textContent = newValue
 		})
 	}
+	// 处理v-html指令
+	htmlUpdater (node, value, key) {
+		node.innerHTML = value
+		// 创建watcher, 改变视图
+		new Watcher(this.vm, key, (newValue) => {
+			node.innerHTML = newValue
+		})
+	}
 	// 处理v-model指令
 	modelUpdater (node, value, key) {
 		console.log(node);
@@ -90,6 +98,7 @@ class Compiler {
 			this.vm.$options.methods && this.vm.$options.methods[key].apply(this.vm, args.length ? args : e)
 		})
 	}
+
 	// 编译文本节点, 处理差值表达式 {{}}
 	compileText(node) {
 		// console.dir(node, '<=====textnode');
