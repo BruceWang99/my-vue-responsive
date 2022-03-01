@@ -98,7 +98,6 @@ class Compiler {
 			this.vm.$options.methods && this.vm.$options.methods[key].apply(this.vm, args.length ? args : e)
 		})
 	}
-
 	// 编译文本节点, 处理差值表达式 {{}}
 	compileText(node) {
 		// console.dir(node, '<=====textnode');

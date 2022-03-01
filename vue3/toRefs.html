@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script type="module">
+    import { reactive, effect, toRefs } from './reactivity/index.js'
+
+    let product = reactive({
+      price: 5000,
+      count: 3
+    })
+    product = toRefs(product)
+    const { price, count } = product
+    let total = 0 
+    effect(() => {
+      total = price.value * count.value
+    })
+    console.log(total)
+
+    price.value = 4000
+    console.log(total)
+
+    count.value = 1
+    console.log(total)
+    console.log('asdfas');
+
+  </script>
+</body>
+</html>
